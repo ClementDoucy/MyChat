@@ -1,0 +1,1 @@
+docker rm cb ; docker run -d --privileged --name cb --link mongodb:mongo -p 12000:12000 -p 12001:12001 node:latest
