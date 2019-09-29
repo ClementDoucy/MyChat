@@ -1,5 +1,5 @@
-const host = "ws://172.20.10.4:12001"
-const ws_cli = new WebSocket(host)
+host = "ws://0.0.0.0:12001";
+const ws_cli = new WebSocket(host);
 
 const send_btn = document.getElementById("send_btn");
 const chat = document.getElementById("chat");
