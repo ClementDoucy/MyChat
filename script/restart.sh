@@ -1,1 +1,0 @@
-docker stop cb && docker start cb

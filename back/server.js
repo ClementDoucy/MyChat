@@ -1,72 +1,52 @@
 'use strict';
 
-const process = require("process");
+const { app, ws_srv, db, front_dir } = require('./config');
 
-if (process.argv.length != 3) {
-    console.error("USAGE: node server.js [WebSocket Host]");
-    console.error("Invalid arguments. Exit.");
-    process.exit(1);
-}
-
-const WebSocket = require('ws');
-const express = require("express");
-
-const port = 12000;
-const host = '0.0.0.0';
-const front_dir = "/home/node/front/";
-
-const app = express();
-const ws_srv = new WebSocket.Server({ port: 12001 });
-
-const morgan = require('morgan');
-const log_fmt = "[:date[web]] :remote-addr :method :url :status :response-time ms";
-
-app.use(morgan(log_fmt, {
-    skip: (req, res) => {
-        return res.statusCode < 400
-    },
-    stream: process.stderr
-}));
-
-app.use(morgan(log_fmt, {
-    skip: (req, res) => {
-        return res.statusCode >= 400
-    },
-    stream: process.stdout
-}));
-
-var users = [];
-
-app.use(express.static(front_dir));
-
-app.listen(port, host, () => {
-    console.log(`Running on http://${host}:${port}`);
-});
+let clients = [];
 
 app.get('/', (req, res) => {
-    res.sendFile(front_dir + 'index.html', {ws_host:process.argv[2]});
+    if (!req.session.log)
+        res.redirect('/login')
+    else
+        res.render(front_dir + 'index')
+});
+
+app.post('/', (req, res) => {
+    if ('new_room' in req.body)
+        db.new_room(req.body['new_room'], req.session.username);
+    res.redirect('/');
 });
 
 app.get('/auth', (req, res) => {
-    res.sendFile(front_dir + 'auth.html');
+    res.render(front_dir + 'auth');
 });
 
-ws_srv.broadcast = (data) => {
-    ws_srv.clients.forEach((client) => {
-        client.send(data);
-    });
-};
+app.post('/auth', (req, res) => {
+    const { username, email, password, password_conf } = req.body
+    let cond = username && email && password;
+    if (cond && password === password_conf) {
+        db.new_user(username, email, password);
+        req.session.log = true;
+        req.session.username = username;
+        res.redirect('/');
+    } else
+        res.redirect('/auth');
+});
 
-ws_srv.on('connection', (ws_cli, req) => {
-    var ip = req.connection.remoteAddress.substr(7);
-    console.log("[Web Socket] " + ip + " connected.");
-    users[ip] = "";
-    ws_cli.on('message', message => {
-        var fmt_message = "[" + (users[ip] != "" ? users[ip] : ip) + "] " + message;
-        if (message.length >= 11 && message.substr(0, 9) == "/nickname") {
-            users[ip] = message.slice(10, message.length);
-        } else {
-            ws_srv.broadcast(fmt_message);
-        }
+app.get('/login', (req, res) => {
+    res.render(front_dir + 'login');
+});
+
+app.post('/login', db.login);
+
+app.get('/user', db.get_all_users);
+
+app.ws('/ws', (ws, req) => {
+    clients.push(ws);
+    ws.on('message', (msg) => {
+        clients.forEach((client) => {
+            console.log(client.session);
+            client.send(`[${req.session.username}] ${msg}`);
+        });
     });
 });

@@ -1,4 +1,4 @@
-host = "ws://0.0.0.0:12001";
+const host = location.origin.replace(/^http/, 'ws') + '/ws';
 const ws_cli = new WebSocket(host);
 
 const send_btn = document.getElementById("send_btn");

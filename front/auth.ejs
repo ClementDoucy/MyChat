@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>My Chat - Login</title>
+        <link rel="stylesheet" type="text/css" href="css/bulma.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    </head>
+    <body>
+        <div class="box has-text-centered">
+            <h1 class="title">
+                My Chat
+            </h1>
+            <h2 class="subtitle">
+                Authentification
+            </h2>
+        </div>
+        <div class="container">
+            <section class="section">
+                <form action="" method="POST">
+                    <div class="field">
+                        <label class="label">Username</label>
+                        <div class="control has-icons-left">
+                            <input class="input is-rounded" type="text" name="username" placeholder="Type your username..." id="username">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control has-icons-left">
+                            <input class="input is-rounded" type="email" name="email" placeholder="Type your mail adress..." id="email">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Password</label>
+                        <div class="control has-icons-left">
+                            <input class="input is-rounded" type="password" name="password" placeholder="Type your password..." id="password">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-key"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Password confirmation</label>
+                        <div class="control has-icons-left">
+                            <input class="input is-rounded" type="password" name="password_conf" placeholder="Retype your password..." id="password_conf">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <button class="button is-link is-rounded" type="submit">Submit</button>
+                </form>
+            </section>
+        </div>
+        <div class="box">
+            <div class="buttons has-addons" style="display: flex; justify-content: center;">
+                <span class="button is-primary is-rounded">Sign up</span>
+                <span onclick="redirect()" class="button is-primary is-inverted is-rounded">Login</span>
+            </div>
+        </div>
+    <script type="text/javascript">
+        redirect = () => {
+            window.location.href = "/login";
+        };
+    </script>
+    </script>
+    </body>
+</html>

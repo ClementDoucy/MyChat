@@ -1,0 +1,30 @@
+{
+  "name": "my_chat",
+  "version": "1.0.0",
+  "description": "Messenger is shit so i do mine",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.7.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "express-ws": "^4.0.0",
+    "morgan": "^1.9.1",
+    "pg": "^7.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClementDoucy/MyChat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ClementDoucy/MyChat/issues"
+  },
+  "homepage": "https://github.com/ClementDoucy/MyChat#readme"
+}
