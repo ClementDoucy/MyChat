@@ -11,7 +11,7 @@
             <div class="row align-items-center h-100">
                 <div class="col-6 mx-auto">
                     <div class="card border-dark mb-3 mx-auto" style="max-width: 30rem;">
-                        <div class="card-header text-center">My Chat</div>
+                        <div class="card-header text-center" id="current_room"> Join a room to chat !</div>
                         <div class="card-body">
                             <div id="chat"></div>
                             <textarea class="form-control mr-1" id="buffer" placeholder="Type a message..."></textarea>
@@ -29,12 +29,10 @@
                                 <br>
                                 <button type="submit" class="btn btn-primary">New room</button>
                             </form>
-                            <form action="" method="POST">
-                                <br>
-                                <input class="form-control mr-1" name="join_room" placeholder="Join a room...">
-                                <br>
-                                <button type="submit" class="btn btn-primary">Join room</button>
-                            </form>
+                            <br>
+                            <input class="form-control mr-1" id="join_input" placeholder="Join a room...">
+                            <br>
+                            <button id="join_btn" class="btn btn-primary">Join room</button>
                         </div>
                     </div>
                 </div>

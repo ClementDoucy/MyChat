@@ -1,19 +1,26 @@
 'use strict';
 
 const { app, ws_srv, db, front_dir } = require('./config');
+const my_ws = require('./web_socket');
 
 let clients = [];
 
 app.get('/', (req, res) => {
     if (!req.session.log)
         res.redirect('/login')
-    else
+    else {
+        if ('room' in req.session)
+            res.locals['room'] = req.session['room']
         res.render(front_dir + 'index')
+    }
 });
 
 app.post('/', (req, res) => {
-    if ('new_room' in req.body)
+    if ('new_room' in req.body) {
         db.new_room(req.body['new_room'], req.session.username);
+        req.session.room = req.body['new_room']
+    } if ('join_room' in req.body)
+        req.session.room = req.body['join_room'];
     res.redirect('/');
 });
 
@@ -41,12 +48,4 @@ app.post('/login', db.login);
 
 app.get('/user', db.get_all_users);
 
-app.ws('/ws', (ws, req) => {
-    clients.push(ws);
-    ws.on('message', (msg) => {
-        clients.forEach((client) => {
-            console.log(client.session);
-            client.send(`[${req.session.username}] ${msg}`);
-        });
-    });
-});
+app.ws('/ws', my_ws.manage);

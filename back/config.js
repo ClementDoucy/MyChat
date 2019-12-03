@@ -27,7 +27,7 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-const log_fmt = "[:date[web]] :remote-addr :method :url :status :response-time ms";
+const log_fmt = "[HTTP :date[web]] :remote-addr :method :url :status :response-time ms";
 
 app.use(morgan(log_fmt, {
     skip: (req, res) => {
